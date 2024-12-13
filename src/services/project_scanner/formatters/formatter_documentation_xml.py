@@ -1,8 +1,9 @@
 import ast
+import logging
+import traceback
 from typing import Union
-from src.services.project_scanner.models.directory_node import DirectoryNode
-from src.services.project_scanner.models.file_node import FileNode
-from src.services.project_scanner.output_formatters.formatter_abstract import FormatterAbstract
+
+from src import FormatterAbstract, DirectoryNode, FileNode
 
 
 class FileAnalyzer:
@@ -11,20 +12,27 @@ class FileAnalyzer:
     """
 
     @staticmethod
-    def analyze(file_content: str) -> str:
+    def analyze(file_name: str, file_content: str) -> str:
         """
-        Analyzes Python file content to extract classes and methods with their docstrings.
+        Analyzes file content to extract classes and methods with their docstrings.
 
         Args:
-            file_content (str): The content of the Python file.
+            file_name (str): The name of the file.
+            file_content (str): The content of the file.
 
         Returns:
-            str: XML-like formatted string containing information about classes and methods.
+            str: XML-like formatted string containing information about classes and methods
+                 or an error message for non-Python files.
         """
+        if not file_name.endswith(".py"):
+            logging.warning(f"Skipping non-Python file: {file_name}. Check formatter_documentation_xml.py")
+            return f"<error>{file_name} is not a Python file and cannot be analyzed.</error>"
+
         try:
             tree = ast.parse(file_content)
-        except SyntaxError:
-            return "<error>Syntax error in file</error>"
+        except SyntaxError as e:
+            logging.error(f"Syntax error in file '{file_name}', Exception: {e}\n{traceback.format_exc()}")
+            return f"<error>Syntax error in file '{file_name}'</error>"
 
         lines = []
         for node in ast.walk(tree):
@@ -60,17 +68,20 @@ class FormatterDocumentationXML(FormatterAbstract):
 
         def traverse(node: Union[DirectoryNode, FileNode]):
             if isinstance(node, FileNode):
-                file_code = node.content
-                file_analysis = FileAnalyzer.analyze(file_code)
+                file_name = node.name
+                file_content = node.content
+
+                file_analysis = FileAnalyzer.analyze(file_name, file_content)
+
                 lines.append("<file>")
-                lines.append(f"  <name>{node.name}</name>")
-                if file_analysis is not "":
-                    lines.append("<doc>")
+                lines.append(f"  <name>{file_name}</name>")
+                if file_analysis:
+                    lines.append("  <doc>")
                     lines.append(file_analysis)
-                    lines.append("</doc>")
+                    lines.append("  </doc>")
                 lines.append("</file>")
+
             elif isinstance(node, DirectoryNode):
-                # Ignore directories
                 for subdirectory in node.directories:
                     traverse(subdirectory)
                 for file in node.files:

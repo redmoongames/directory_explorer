@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from src.services.project_scanner.models.directory_node import DirectoryNode
+from src import DirectoryNode
 
 
 class FormatterAbstract(ABC):

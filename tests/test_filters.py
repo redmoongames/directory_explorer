@@ -4,6 +4,8 @@ from src.services.project_scanner.filters.filter_exclude_directory import Filter
 from src.services.project_scanner.filters.filter_exclude_file_extension import FilterExcludeFileExtension
 from src.services.project_scanner.filters.filter_exclude_file_name import FilterExcludeFileName
 from src.services.project_scanner.filters.filter_composite import FilterComposite
+from src.services.project_scanner.filters.filter_only_with_files_extension import FilterOnlyWithFilesExtension
+
 
 class TestFilterExcludeDirectory(unittest.TestCase):
 
@@ -118,6 +120,30 @@ class TestFilterComposite(unittest.TestCase):
 
         self.assertEqual(filtered_dirs, directories)
         self.assertEqual(filtered_files, files)
+
+
+class TestFilterIncludeOnlyExtension(unittest.TestCase):
+    def test_filter_include_only_extension(self):
+        extension_filter = FilterOnlyWithFilesExtension([".py", ".env"])
+        expected = []
+        incorrect_directories = ["__pycache__", ".secret", "./correct_3././", "a/correct_1/b/c", ]
+        result = extension_filter.filter_dirs(expected + incorrect_directories)
+        self.assertEqual(expected, result)
+
+    def test_filter_include_only_extension_folders(self):
+        extension_filter = FilterOnlyWithFilesExtension([".py", ".env"])
+        expected = ["secret.env", "/secret.py", "././secret.env"]
+        incorrect_directories = ["text.txt", "/text.txt", "././text.txt"]
+        result = extension_filter.filter_files(expected + incorrect_directories)
+        self.assertEqual(expected, result)
+
+    def test_filter_include_only_extension_folders_2(self):
+        extension_filter = FilterOnlyWithFilesExtension([".py", ".env"])
+        expected = ["directory/secret.py", "./directory/directory/secret.env"]
+        incorrect_directories = ["/directory/text.txt", "./directory/.env/directory/text.txt"]
+        result = extension_filter.filter_files(expected + incorrect_directories)
+        self.assertEqual(expected, result)
+
 
 if __name__ == "__main__":
     unittest.main()

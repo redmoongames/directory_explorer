@@ -1,6 +1,7 @@
 import os
 from typing import List, Optional
-from src.services.project_scanner.filters.filter_absract import AbstractFileFilter
+
+from src import AbstractFileFilter
 
 
 class FilterExcludeFileName(AbstractFileFilter):
@@ -21,15 +22,7 @@ class FilterExcludeFileName(AbstractFileFilter):
         self.excluded_names = set(excluded_names) if excluded_names else set()
 
     def _is_file_allowed(self, file: str) -> bool:
-        """
-        Checks if a single file is allowed based on its name.
-
-        Args:
-            file (str): Full file path.
-
-        Returns:
-            bool: True if the file's base name is not in the exclusion list, False otherwise.
-        """
+        """Checks if a single file is allowed based on its name."""
         file_name = os.path.basename(os.path.normpath(file))
         return file_name not in self.excluded_names
 

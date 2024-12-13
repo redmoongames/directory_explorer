@@ -1,14 +1,10 @@
+from dataclasses import dataclass
 from typing import List, Optional, Union
 
-from src.services.project_scanner.filters import AbstractFileFilter
-from src.services.project_scanner.output_formatters.formatter_abstract import FormatterAbstract
-from src.services.project_scanner.output_formatters.formatter_content_only import FormatterContentOnly
+from src import FilterExcludeFileName, FilterExcludeDirectory, FilterExcludeFileExtension, ProjectScanner, \
+    FilterComposite, AbstractFileFilter, FormatterProjectStructure, FormatterContent, FormatterDocumentationXML
 
-from src.services.project_scanner.output_formatters.formatter_documentation_xml import FormatterDocumentationXML
-from src.services.project_scanner.output_formatters.formatter_documentation_json import FormatterDocumentationJSON
-from src.services.project_scanner.output_formatters.formatter_markdown import FormatterMarkdown
-from src.services.project_scanner.output_formatters.formatter_project_structure import FormatterProjectStructure
-from src.services.project_scanner.project_scanner import ProjectScanner
+
 
 
 class ProjectOverviewService:
@@ -22,7 +18,7 @@ class ProjectOverviewService:
     def __init__(
         self,
         root_directory: str,
-        base_filter: AbstractFileFilter,
+        filter_settings: FilterSettings,
     ) -> None:
         """
         Initializes the ProjectOverviewService.
@@ -31,7 +27,14 @@ class ProjectOverviewService:
             root_directory (str): The root directory of the project.
             base_filter (AbstractFileFilter): The base filter for filtering files and directories.
         """
-        self.project_scanner = ProjectScanner(root_directory, base_filter)
+        filters = []
+        if filter_settings.ignored_files is not None:
+            filters.append(FilterExcludeFileName(filter_settings.ignored_files))
+        if filter_settings.ignored_directories is not None:
+            filters.append(FilterExcludeDirectory(filter_settings.ignored_directories))
+        if filter_settings.ignored_extensions is not None:
+            filters.append(FilterExcludeFileExtension(filter_settings.ignored_extensions))
+        self.project_scanner = ProjectScanner(root_directory, FilterComposite(filters))
 
     def get_project_structure(
         self,
@@ -68,7 +71,7 @@ class ProjectOverviewService:
         Returns:
             str: Formatted project content.
         """
-        formatter = FormatterContentOnly()
+        formatter = FormatterContent()
         structure = self.project_scanner.fetch_structure(relative_path, additional_filter)
         return formatter.format(structure)
 

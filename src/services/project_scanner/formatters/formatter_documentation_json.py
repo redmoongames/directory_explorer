@@ -1,9 +1,9 @@
 import ast
 import json
+import logging
 from typing import Dict, List, Union
-from src.services.project_scanner.models.directory_node import DirectoryNode
-from src.services.project_scanner.models.file_node import FileNode
-from src.services.project_scanner.output_formatters.formatter_abstract import FormatterAbstract
+
+from src import FormatterAbstract, DirectoryNode, FileNode
 
 
 class FileAnalyzer:
@@ -24,7 +24,8 @@ class FileAnalyzer:
         """
         try:
             tree = ast.parse(file_content)
-        except SyntaxError:
+        except SyntaxError as e:
+            logging.error(f"Syntax error in file: {e}")
             return [{"error": "Syntax error in file"}]
 
         classes = []

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from src.services.project_scanner.models.file_node import FileNode
+from src import FileNode
 
 
 @dataclass

@@ -1,10 +1,7 @@
 import os
 from typing import Optional
 
-from src.services.project_scanner.filters import FilterComposite
-from src.services.project_scanner.filters.filter_absract import AbstractFileFilter
-from src.services.project_scanner.models.directory_node import DirectoryNode
-from src.services.project_scanner.models.file_node import FileNode
+from src import AbstractFileFilter, DirectoryNode, FilterComposite, FileNode
 
 
 class ProjectScanner:

@@ -1,5 +1,6 @@
 from typing import List
-from src.services.project_scanner.filters.filter_absract import AbstractFileFilter
+
+from src import AbstractFileFilter
 
 
 class FilterComposite(AbstractFileFilter):

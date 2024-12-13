@@ -1,6 +1,7 @@
 import os
 from typing import List, Optional
-from src.services.project_scanner.filters.filter_absract import AbstractFileFilter
+
+from src import AbstractFileFilter
 
 
 class FilterExcludeFileExtension(AbstractFileFilter):

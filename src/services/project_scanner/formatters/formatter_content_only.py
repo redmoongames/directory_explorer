@@ -1,11 +1,11 @@
 import ast
+import logging
 from typing import Union
-from src.services.project_scanner.models.directory_node import DirectoryNode
-from src.services.project_scanner.models.file_node import FileNode
-from src.services.project_scanner.output_formatters.formatter_abstract import FormatterAbstract
+
+from src import FormatterAbstract, DirectoryNode, FileNode
 
 
-class FormatterContentOnly(FormatterAbstract):
+class FormatterContent(FormatterAbstract):
     """
     Formatter that outputs only the content of files.
 
@@ -59,7 +59,8 @@ class FormatterContentOnly(FormatterAbstract):
         """
         try:
             tree = ast.parse(content)
-        except SyntaxError:
+        except SyntaxError as e:
+            logging.error(f"Syntax error in file: {e}")
             return "<SYNTAX ERROR> Unable to parse Python file."
 
         cleaned_lines = []
