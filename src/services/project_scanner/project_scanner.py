@@ -1,7 +1,8 @@
 import os
 from typing import Optional
 
-from src import AbstractFileFilter, DirectoryNode, FilterComposite, FileNode
+from .filters import AbstractFileFilter, FilterComposite
+from .models import DirectoryNode, FileNode
 
 
 class ProjectScanner:

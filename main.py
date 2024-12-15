@@ -4,7 +4,8 @@ from tkinter import filedialog, scrolledtext
 from tkinter import StringVar, IntVar, Checkbutton, Label, Button, Entry
 
 from config.development_config import DevelopmentConfig
-from src.services.project_scanner import FilterSettings, ProjectOverviewService
+from src.services.project_scanner.filter_settings import FilterSettings
+from src.services.project_scanner.project_overview_service import ProjectOverviewService
 
 
 class ProjectScannerApp:

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from src import FileNode
+from .file_node import FileNode
 
 
 @dataclass

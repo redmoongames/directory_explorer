@@ -1,10 +1,6 @@
 import unittest
-from src.services.project_scanner.filters.filter_absract import AbstractFileFilter
-from src.services.project_scanner.filters.filter_exclude_directory import FilterExcludeDirectory
-from src.services.project_scanner.filters.filter_exclude_file_extension import FilterExcludeFileExtension
-from src.services.project_scanner.filters.filter_exclude_file_name import FilterExcludeFileName
-from src.services.project_scanner.filters.filter_composite import FilterComposite
-from src.services.project_scanner.filters.filter_only_with_files_extension import FilterOnlyWithFilesExtension
+
+from src.services.project_scanner import *
 
 
 class TestFilterExcludeDirectory(unittest.TestCase):

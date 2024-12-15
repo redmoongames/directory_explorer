@@ -3,7 +3,8 @@ import json
 import logging
 from typing import Dict, List, Union
 
-from src import FormatterAbstract, DirectoryNode, FileNode
+from .formatter_abstract import FormatterAbstract
+from ..models import DirectoryNode, FileNode
 
 
 class FileAnalyzer:

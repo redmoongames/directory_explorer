@@ -1,6 +1,7 @@
 from typing import Union
 
-from src import FormatterAbstract, DirectoryNode, FileNode
+from .formatter_abstract import FormatterAbstract
+from ..models import DirectoryNode, FileNode
 
 
 class FormatterProjectStructure(FormatterAbstract):

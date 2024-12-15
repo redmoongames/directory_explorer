@@ -1,10 +1,9 @@
-from dataclasses import dataclass
-from typing import List, Optional, Union
+from typing import Optional
 
-from src import FilterExcludeFileName, FilterExcludeDirectory, FilterExcludeFileExtension, ProjectScanner, \
-    FilterComposite, AbstractFileFilter, FormatterProjectStructure, FormatterContent, FormatterDocumentationXML
-
-
+from .filter_settings import FilterSettings
+from .filters import *
+from .formatters import *
+from .project_scanner import ProjectScanner
 
 
 class ProjectOverviewService:

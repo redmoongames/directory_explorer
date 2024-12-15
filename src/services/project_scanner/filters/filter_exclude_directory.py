@@ -1,7 +1,7 @@
 import os
 from typing import List, Optional
 
-from src import AbstractFileFilter
+from .filter_absract import AbstractFileFilter
 
 
 class FilterExcludeDirectory(AbstractFileFilter):

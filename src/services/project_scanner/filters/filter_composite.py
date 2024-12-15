@@ -1,6 +1,6 @@
 from typing import List
 
-from src import AbstractFileFilter
+from .filter_absract import AbstractFileFilter
 
 
 class FilterComposite(AbstractFileFilter):

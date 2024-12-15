@@ -1,7 +1,7 @@
 from .filter_absract import AbstractFileFilter
-from .filter_exclude_file_name import FilterExcludeFileName
-from .filter_exclude_directory import FilterExcludeDirectory
-from .filter_only_with_files_extension import FilterOnlyWithFilesExtension
-from .filter_exclude_file_extension import FilterExcludeFileExtension
 from .filter_composite import FilterComposite
+from .filter_exclude_directory import FilterExcludeDirectory
+from .filter_exclude_file_extension import FilterExcludeFileExtension
+from .filter_exclude_file_name import FilterExcludeFileName
+from .filter_only_with_files_extension import FilterOnlyWithFilesExtension
 
